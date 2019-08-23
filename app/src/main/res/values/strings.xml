@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Android Architecture Components</string>
+    <string name="repos_not_found">Não conseguimos encontrar nenhum repositório correspondente</string>
+    <string name="default_search">Android</string>
+    <string name="search_hint">Busca</string>
+    <string name="retry">Tentar novamente</string>
+</resources>
