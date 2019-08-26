@@ -69,7 +69,7 @@ public class TaskLiveData<T> extends SingleLiveEvent<TaskResult<T>> {
         return Transformations.switchMap(this, input -> {
             if (input != null) {
                 if (input.error != null) {
-                    statusLiveData.postValue(State.ERROR.setError(input.error));
+                    statusLiveData.postValue(State.ERROR.setThrowable(input.error));
                 } else {
                     statusLiveData.postValue(State.SUCCEEDED);
                 }
@@ -134,7 +134,7 @@ public class TaskLiveData<T> extends SingleLiveEvent<TaskResult<T>> {
             @Override
             public void onFailed(Throwable error) {
                 observer.onFailed(error);
-                observer.onStateChanged(State.ERROR.setError(error));
+                observer.onStateChanged(State.ERROR.setThrowable(error));
             }
 
             @Override

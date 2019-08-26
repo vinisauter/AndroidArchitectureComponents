@@ -31,7 +31,7 @@ public interface RepositoryDao {
     DataSource.Factory<Integer, RepositoryDB> getRepositoriesPaging(String query);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void save(RepositoryDB item);
+    Long save(RepositoryDB item);
 
     @Delete
     void delete(RepositoryDB... item);

@@ -31,9 +31,6 @@ public class GitHubRepoSearchActivity extends AppCompatActivity {
 
         mainVM.queryState.observe(this, adapter::setQueryState);
 
-        mainBinding.swipeRefresh.setOnRefreshListener(() -> mainVM.refresh());
-        mainVM.refreshState.observe(this, state -> mainBinding.swipeRefresh.setRefreshing(state.isLoading()));
-
         String savedQuery = null;
         if (savedInstanceState != null) {
             savedQuery = savedInstanceState.getString(KEY_QUERY);

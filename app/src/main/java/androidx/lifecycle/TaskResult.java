@@ -67,7 +67,7 @@ public class TaskResult<F> {
 
     public State getState() {
         if (error != null) {
-            return State.ERROR.setError(error);
+            return State.ERROR.setThrowable(error);
         } else if (value != null) {
             return State.SUCCEEDED;
         } else {

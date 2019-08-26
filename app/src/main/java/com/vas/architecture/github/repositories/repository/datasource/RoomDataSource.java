@@ -12,13 +12,14 @@ import com.vas.architecture.github.repositories.repository.datasource.room.objec
 import java.text.MessageFormat;
 
 import io.reactivex.Observable;
+import io.reactivex.schedulers.Schedulers;
 
 public class RoomDataSource {
 
     private final RepositoryDao repositoryDao = AppDatabase.getInstance().repositoryDao();
 
     public void save(RepositoryDB input) {
-        repositoryDao.save(input);
+        Observable.fromCallable(() -> repositoryDao.save(input)).subscribeOn(Schedulers.io()).subscribe();
     }
 
     public DataSource.Factory<Integer, RepositoryDB> getRepositoriesDBFactory(String query) {

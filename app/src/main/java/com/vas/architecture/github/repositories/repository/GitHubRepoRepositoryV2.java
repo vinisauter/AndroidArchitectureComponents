@@ -5,6 +5,7 @@ import androidx.lifecycle.State;
 import androidx.paging.DataSource;
 import androidx.paging.LivePagedListBuilder;
 
+import com.vas.architecture.components.exception.RetryException;
 import com.vas.architecture.github.repositories.business.Listing;
 import com.vas.architecture.github.repositories.objects.Repo;
 import com.vas.architecture.github.repositories.repository.datasource.RetrofitDataSource;
@@ -20,25 +21,24 @@ public class GitHubRepoRepositoryV2 {
 
     private RetrofitDataSource retrofitDataSource = new RetrofitDataSource();
 
-    //TODO: Quem seta este valor?
-    // Pode ser um DataSource sobre o estado da internet ou vem do Model? Ou pode vir dos 2
     private boolean hasInternet = true;
+    private final Listing<Repo> repoListing;
 
     public GitHubRepoRepositoryV2() {
-
+        repoListing = new Listing<>();
+        repoListing.queryState = new MutableLiveData<>();
     }
 
     public Listing<Repo> searchRepositories(String query, int pageSize) {
-        Listing<Repo> repoListing = new Listing<>();
-        repoListing.queryState = new MutableLiveData<>();
         repoListing.queryState.postValue(State.LOADING);
         DataSource.Factory<Integer, RepositoryDB> dsFactory;
         if (hasInternet) {
             dsFactory = retrofitDataSource.getRepositoriesRestFactory(query, error -> {
-                repoListing.queryState.postValue(State.ERROR.setError(error));
+                repoListing.queryState.postValue(State.ERROR.setThrowable(error));
                 repoListing.retry = error.getRetry();
             }).map(GitHubRepoRepositoryV2.this::mapAndSaveToDB).mapByPage(input -> {
-                repoListing.queryState.postValue(State.SUCCEEDED);
+                if (input.isEmpty())
+                    repoListing.queryState.postValue(State.SUCCEEDED);
                 return input;
             });
         } else {
@@ -158,7 +158,23 @@ public class GitHubRepoRepositoryV2 {
         }
         // endregion
 
-//        roomDataSource.save(repositoryDB);
+        roomDataSource.save(repositoryDB);
         return repositoryDB;
+    }
+
+    public void retryErrorQuery() {
+        if (repoListing.queryState != null) {
+            State value = repoListing.queryState.getValue();
+            if (value != null) {
+                if (value == State.ERROR) {
+                    Throwable error = value.getThrowable();
+                    if (error instanceof RetryException) {
+                        repoListing.queryState.postValue(State.LOADING);
+                        ((RetryException) error).retry();
+                    } else
+                        error.printStackTrace();
+                }
+            }
+        }
     }
 }

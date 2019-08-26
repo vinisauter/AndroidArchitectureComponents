@@ -14,34 +14,41 @@
             type="androidx.lifecycle.State" />
     </data>
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="8dp">
-
-        <TextView
-            android:id="@+id/error_msg"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="@{state.message}"
-            android:visibility="@{state.error ? View.VISIBLE : View.GONE}" />
+        android:layout_height="wrap_content">
 
         <ProgressBar
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:indeterminate="true"
             android:visibility="@{state.loading ? View.VISIBLE: View.GONE}" />
 
-        <Button
-            android:id="@+id/retry_button"
-            style="@style/Widget.AppCompat.Button.Colored"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:onClick="@{() -> adapterEvent.onQueryRetryRequest()}"
-            android:text="@string/retry" />
-    </LinearLayout>
+            android:orientation="vertical"
+            android:padding="8dp"
+            android:visibility="@{state.error ? View.VISIBLE : View.INVISIBLE}">
+
+            <TextView
+                android:id="@+id/error_msg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:lines="2"
+                android:text="@{state.message}" />
+
+            <Button
+                android:id="@+id/retry_button"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:onClick="@{() -> adapterEvent.onQueryRetryRequest()}"
+                android:text="@string/retry" />
+        </LinearLayout>
+    </FrameLayout>
 </layout>

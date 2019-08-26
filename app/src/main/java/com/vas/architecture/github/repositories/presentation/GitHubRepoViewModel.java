@@ -27,7 +27,6 @@ public class GitHubRepoViewModel extends ViewModel {
     public final LiveData<State> queryState = Transformations.switchMap(repoResult, input ->
             input.queryState
     );
-    public final LiveData<State> refreshState = new MutableLiveData<>();
 
     public void setQuery(String query) {
         if (query.trim().equalsIgnoreCase(this.query.getValue())) {
@@ -41,10 +40,6 @@ public class GitHubRepoViewModel extends ViewModel {
     }
 
     public void onQueryRetryRequest() {
-        // TODO: onQueryRetryRequest
-    }
-
-    public void refresh() {
-//        repoResult.value?.refresh?.invoke()
+        mainModel.retryErrorQuery();
     }
 }

@@ -4,6 +4,7 @@ import com.vas.architecture.github.repositories.objects.Repo;
 import com.vas.architecture.github.repositories.repository.GitHubRepoRepositoryV2;
 
 public class GitHubRepoModel {
+    // region Singleton Model INSTANCE
     private static GitHubRepoModel instance_;
 
     public static GitHubRepoModel getInstance() {
@@ -25,6 +26,7 @@ public class GitHubRepoModel {
             instance_ = null;
         }
     }
+    // endregion
 
     private GitHubRepoRepositoryV2 mainRepository = new GitHubRepoRepositoryV2();
 
@@ -34,5 +36,9 @@ public class GitHubRepoModel {
 
     public Listing<Repo> searchListRepos(String query, int pageSize) {
         return mainRepository.searchRepositories(query, pageSize);
+    }
+
+    public void retryErrorQuery() {
+        mainRepository.retryErrorQuery();
     }
 }

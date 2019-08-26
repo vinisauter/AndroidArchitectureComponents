@@ -77,9 +77,20 @@ public class RepoAdapter extends PagedListAdapter<Repo, RecyclerView.ViewHolder>
         return queryState != null && (queryState.isLoading() || queryState.isError());
     }
 
+    private boolean isLoading() {
+        return queryState != null && queryState.isLoading();
+    }
+
+    private boolean isError() {
+        return queryState != null && queryState.isError();
+    }
+
     @Override
     public int getItemCount() {
-        return super.getItemCount() + (hasExtraRow() ? 1 : 0);
+        return super.getItemCount()
+                + (isLoading() ? 1 : 0)
+                + (isError() ? 1 : 0)
+                ;
     }
 
     public void setQueryState(State newState) {
@@ -93,8 +104,9 @@ public class RepoAdapter extends PagedListAdapter<Repo, RecyclerView.ViewHolder>
             } else {
                 notifyItemInserted(super.getItemCount());
             }
-        } else if (hasExtraRow && previousState != newState) {
-            notifyItemChanged(super.getItemCount() - 1);
+        }
+        if (hasExtraRow && previousState != newState) {
+            notifyItemChanged(super.getItemCount());
         }
         queryState = newState;
     }
@@ -115,7 +127,8 @@ public class RepoAdapter extends PagedListAdapter<Repo, RecyclerView.ViewHolder>
         private final RepoItemBinding repoItemBinding;
 
         static RepositoryViewHolder create(ViewGroup parent) {
-            RepoItemBinding repoItemBinding = RepoItemBinding.inflate(LayoutInflater.from(parent.getContext()));
+            RepoItemBinding repoItemBinding =
+                    RepoItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
             return new RepositoryViewHolder(repoItemBinding);
         }
 
@@ -135,7 +148,8 @@ public class RepoAdapter extends PagedListAdapter<Repo, RecyclerView.ViewHolder>
         private AdapterEvent adapterEvent;
 
         static RecyclerView.ViewHolder create(ViewGroup parent, AdapterEvent adapterEvent) {
-            StateItemBinding stateItemBinding = StateItemBinding.inflate(LayoutInflater.from(parent.getContext()));
+            StateItemBinding stateItemBinding =
+                    StateItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
             return new StateItemViewHolder(stateItemBinding, adapterEvent);
         }
 

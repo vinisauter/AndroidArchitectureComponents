@@ -32,7 +32,11 @@ public enum State {
         return Utils.getTextFor(error);
     }
 
-    public State setError(Throwable error) {
+    public Throwable getThrowable() {
+        return error;
+    }
+
+    public State setThrowable(Throwable error) {
         this.error = error;
         return this;
     }
