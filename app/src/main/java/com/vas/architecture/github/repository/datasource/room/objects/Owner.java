@@ -1,4 +1,4 @@
-package com.vas.architecture.github.repositories.repository.datasource.room.objects;
+package com.vas.architecture.github.repository.datasource.room.objects;
 
 public class Owner {
     public String login;

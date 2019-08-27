@@ -1,4 +1,4 @@
-package com.vas.architecture.github.repositories.presentation;
+package com.vas.architecture.github.presentation;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -9,13 +9,14 @@ import androidx.lifecycle.ViewModel;
 import androidx.paging.PagedList;
 
 import com.vas.architecture.components.Utils;
-import com.vas.architecture.github.repositories.business.GitHubRepoModel;
-import com.vas.architecture.github.repositories.objects.Repo;
+import com.vas.architecture.github.business.GitHubRepoModel;
+import com.vas.architecture.github.presentation.objects.Listing;
+import com.vas.architecture.github.presentation.objects.Repo;
 
 @SuppressWarnings("WeakerAccess")
-public class GitHubRepoViewModel extends ViewModel {
+public class GitHubViewModel extends ViewModel {
     private static final int PAGE_SIZE = 10;
-    private final IGitHubData mainModel = GitHubRepoModel.getInstance();
+    private final IGitHubDataModel mainModel = GitHubRepoModel.getInstance();
 
     private final MutableLiveData<String> query = new MutableLiveData<>();
 

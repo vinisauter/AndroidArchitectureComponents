@@ -1,4 +1,4 @@
-package com.vas.architecture.github.repositories.repository.datasource.room;
+package com.vas.architecture.github.repository.datasource.room;
 
 import androidx.room.Database;
 import androidx.room.Room;
@@ -7,7 +7,7 @@ import androidx.room.TypeConverters;
 
 import com.vas.architecture.AppApplication;
 import com.vas.architecture.BuildConfig;
-import com.vas.architecture.github.repositories.repository.datasource.room.objects.RepositoryDB;
+import com.vas.architecture.github.repository.datasource.room.objects.RepositoryDB;
 
 @Database(version = BuildConfig.VERSION_CODE, exportSchema = false,
         entities = {

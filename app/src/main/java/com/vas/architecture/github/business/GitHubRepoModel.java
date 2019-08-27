@@ -1,14 +1,14 @@
-package com.vas.architecture.github.repositories.business;
+package com.vas.architecture.github.business;
 
 import androidx.lifecycle.State;
 
 import com.vas.architecture.components.exception.RetryException;
-import com.vas.architecture.github.repositories.objects.Repo;
-import com.vas.architecture.github.repositories.presentation.IGitHubData;
-import com.vas.architecture.github.repositories.presentation.Listing;
-import com.vas.architecture.github.repositories.repository.GitHubRepoRepository;
+import com.vas.architecture.github.presentation.IGitHubDataModel;
+import com.vas.architecture.github.presentation.objects.Listing;
+import com.vas.architecture.github.presentation.objects.Repo;
+import com.vas.architecture.github.repository.GitHubRepoRepository;
 
-public class GitHubRepoModel implements IGitHubData {
+public class GitHubRepoModel implements IGitHubDataModel {
     // region Singleton Model INSTANCE
     private static GitHubRepoModel instance_;
 

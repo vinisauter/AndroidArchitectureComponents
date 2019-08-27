@@ -1,10 +1,10 @@
-package com.vas.architecture.github.repositories.repository.datasource;
+package com.vas.architecture.github.repository.datasource;
 
 import androidx.paging.DataSource;
 
-import com.vas.architecture.github.repositories.repository.datasource.room.AppDatabase;
-import com.vas.architecture.github.repositories.repository.datasource.room.RepositoryDao;
-import com.vas.architecture.github.repositories.repository.datasource.room.objects.RepositoryDB;
+import com.vas.architecture.github.repository.datasource.room.AppDatabase;
+import com.vas.architecture.github.repository.datasource.room.RepositoryDao;
+import com.vas.architecture.github.repository.datasource.room.objects.RepositoryDB;
 
 import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;

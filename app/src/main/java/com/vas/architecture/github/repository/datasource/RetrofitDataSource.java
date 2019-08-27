@@ -1,4 +1,4 @@
-package com.vas.architecture.github.repositories.repository.datasource;
+package com.vas.architecture.github.repository.datasource;
 
 import android.util.Log;
 
@@ -9,9 +9,9 @@ import androidx.paging.PageKeyedDataSource;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.vas.architecture.components.exception.RetryException;
-import com.vas.architecture.github.repositories.repository.datasource.retrofit.GitHubService;
-import com.vas.architecture.github.repositories.repository.datasource.retrofit.objects.RepositoryRest;
-import com.vas.architecture.github.repositories.repository.datasource.retrofit.objects.Result;
+import com.vas.architecture.github.repository.datasource.retrofit.GitHubService;
+import com.vas.architecture.github.repository.datasource.retrofit.objects.RepositoryRest;
+import com.vas.architecture.github.repository.datasource.retrofit.objects.Result;
 
 import java.net.HttpRetryException;
 import java.util.List;

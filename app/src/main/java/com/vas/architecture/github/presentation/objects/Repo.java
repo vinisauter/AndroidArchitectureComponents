@@ -1,4 +1,4 @@
-package com.vas.architecture.github.repositories.objects;
+package com.vas.architecture.github.presentation.objects;
 
 public class Repo {
     public Long id;

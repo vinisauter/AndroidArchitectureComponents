@@ -1,4 +1,4 @@
-package com.vas.architecture.github.repositories.repository.datasource.room;
+package com.vas.architecture.github.repository.datasource.room;
 
 import androidx.lifecycle.LiveData;
 import androidx.paging.DataSource;
@@ -8,7 +8,7 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
-import com.vas.architecture.github.repositories.repository.datasource.room.objects.RepositoryDB;
+import com.vas.architecture.github.repository.datasource.room.objects.RepositoryDB;
 
 import java.util.List;
 

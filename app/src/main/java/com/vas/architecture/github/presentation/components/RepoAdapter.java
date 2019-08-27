@@ -1,4 +1,4 @@
-package com.vas.architecture.github.repositories.presentation.components;
+package com.vas.architecture.github.presentation.components;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.vas.architecture.R;
 import com.vas.architecture.databinding.RepoItemBinding;
 import com.vas.architecture.databinding.StateItemBinding;
-import com.vas.architecture.github.repositories.objects.Repo;
+import com.vas.architecture.github.presentation.objects.Repo;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.vas.architecture.github.repositories.repository.datasource.room;
+package com.vas.architecture.github.repository.datasource.room;
 
 import androidx.room.TypeConverter;
 

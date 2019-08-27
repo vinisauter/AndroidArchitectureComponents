@@ -1,4 +1,4 @@
-package com.vas.architecture.github.repositories.repository;
+package com.vas.architecture.github.repository;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.SingleLiveEvent;
@@ -8,13 +8,13 @@ import androidx.paging.LivePagedListBuilder;
 import androidx.paging.PagedList;
 import androidx.paging.RxPagedListBuilder;
 
-import com.vas.architecture.github.repositories.objects.Repo;
-import com.vas.architecture.github.repositories.repository.datasource.RetrofitDataSource;
-import com.vas.architecture.github.repositories.repository.datasource.RoomDataSource;
-import com.vas.architecture.github.repositories.repository.datasource.retrofit.objects.RepositoryRest;
-import com.vas.architecture.github.repositories.repository.datasource.room.objects.License;
-import com.vas.architecture.github.repositories.repository.datasource.room.objects.Owner;
-import com.vas.architecture.github.repositories.repository.datasource.room.objects.RepositoryDB;
+import com.vas.architecture.github.presentation.objects.Repo;
+import com.vas.architecture.github.repository.datasource.RetrofitDataSource;
+import com.vas.architecture.github.repository.datasource.RoomDataSource;
+import com.vas.architecture.github.repository.datasource.retrofit.objects.RepositoryRest;
+import com.vas.architecture.github.repository.datasource.room.objects.License;
+import com.vas.architecture.github.repository.datasource.room.objects.Owner;
+import com.vas.architecture.github.repository.datasource.room.objects.RepositoryDB;
 
 import io.reactivex.observers.DefaultObserver;
 import io.reactivex.schedulers.Schedulers;

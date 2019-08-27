@@ -1,4 +1,4 @@
-package com.vas.architecture.github.repositories.presentation;
+package com.vas.architecture.github.presentation;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -15,28 +15,30 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.vas.architecture.R;
 import com.vas.architecture.databinding.ActivityMainBinding;
-import com.vas.architecture.github.repositories.objects.Repo;
-import com.vas.architecture.github.repositories.presentation.components.RepoAdapter;
+import com.vas.architecture.github.presentation.components.RepoAdapter;
+import com.vas.architecture.github.presentation.objects.Repo;
 
-public class GitHubRepoSearchActivity extends AppCompatActivity {
+public class GitHubSearchActivity extends AppCompatActivity {
     static final String KEY_QUERY = "git_query";
     static final String DEFAULT_QUERY = "android";
     public ActivityMainBinding mainBinding;
-    public GitHubRepoViewModel mainVM;
+    public GitHubViewModel mainVM;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mainVM = new ViewModelProvider(this).get(GitHubRepoViewModel.class);
+        mainVM = new ViewModelProvider(this).get(GitHubViewModel.class);
         mainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         mainBinding.setMainVM(mainVM);
 
         RepoAdapter adapter = new RepoAdapter(new RepoAdapter.AdapterEvent() {
+            // FIXME: Posso substituir este callback por DataBinding?
             @Override
             public void onQueryRetryRequest() {
                 mainVM.onQueryRetryRequest();
             }
 
+            // FIXME: Posso substituir este callback por DataBinding?
             @Override
             public void onItemClicked(Repo item) {
                 mainVM.onRepoSelected(item);

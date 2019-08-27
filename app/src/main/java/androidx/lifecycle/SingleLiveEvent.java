@@ -46,14 +46,6 @@ public class SingleLiveEvent<T> extends MediatorLiveData<T> {
         super.setValue(t);
     }
 
-    /**
-     * Used for cases where T is Void, to make calls cleaner.
-     */
-    @MainThread
-    public void call() {
-        setValue(null);
-    }
-
     @MainThread
     @NonNull
     public static <X, Y> SingleLiveEvent<Y> map(

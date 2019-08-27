@@ -1,4 +1,4 @@
-package com.vas.architecture.github.repositories.presentation;
+package com.vas.architecture.github.presentation.objects;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.SingleLiveEvent;

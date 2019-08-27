@@ -1,7 +1,18 @@
-package com.vas.architecture.github.repositories.repository.datasource.retrofit.objects;
+package com.vas.architecture.github.repository.datasource.room.objects;
 
-public class RepositoryRest {
+import androidx.room.Embedded;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+import java.util.Date;
+
+@Entity
+public class RepositoryDB {
+    @PrimaryKey(autoGenerate = true)
     public Long id;
+    public Date createdAt;
+    public Date updatedAt;
+
     public String name;
     public String full_name;
     public String html_url;
@@ -15,7 +26,6 @@ public class RepositoryRest {
     public Integer stargazers_count;
     public Integer watchers_count;
     public Integer forks_count;
-    public Owner owner;
     public String archive_url;
     public Boolean archived;
     public String assignees_url;
@@ -53,7 +63,6 @@ public class RepositoryRest {
     public String keys_url;
     public String labels_url;
     public String languages_url;
-    public License license;
     public String merges_url;
     public String milestones_url;
     public String mirror_url;
@@ -74,4 +83,13 @@ public class RepositoryRest {
     public String trees_url;
     public String url;
     public Integer watchers;
+    @Embedded(prefix = "owner_")
+    public Owner owner;
+    @Embedded(prefix = "license_")
+    public License license;
+
+    public RepositoryDB() {
+        createdAt = new Date();
+        updatedAt = new Date();
+    }
 }

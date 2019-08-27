@@ -6,11 +6,11 @@
 
         <variable
             name="item"
-            type="com.vas.architecture.github.repositories.objects.Repo" />
+            type="com.vas.architecture.github.presentation.objects.Repo" />
 
         <variable
             name="adapterEvent"
-            type="com.vas.architecture.github.repositories.presentation.components.RepoAdapter.AdapterEvent" />
+            type="com.vas.architecture.github.presentation.components.RepoAdapter.AdapterEvent" />
 
     </data>
 

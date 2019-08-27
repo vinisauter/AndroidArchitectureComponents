@@ -1,6 +1,6 @@
-package com.vas.architecture.github.repositories.repository.datasource.retrofit;
+package com.vas.architecture.github.repository.datasource.retrofit;
 
-import com.vas.architecture.github.repositories.repository.datasource.retrofit.objects.Result;
+import com.vas.architecture.github.repository.datasource.retrofit.objects.Result;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

@@ -1,4 +1,4 @@
-package com.vas.architecture.github.repositories.repository.datasource.retrofit.objects;
+package com.vas.architecture.github.repository.datasource.room.objects;
 
 public class License {
     public String key;

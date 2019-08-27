@@ -5,7 +5,7 @@ import android.content.Intent;
 
 import com.vas.architecture.components.coordinator.BaseNavigator;
 import com.vas.architecture.components.coordinator.NavigationOwner;
-import com.vas.architecture.github.repositories.presentation.GitHubRepoSearchActivity;
+import com.vas.architecture.github.presentation.GitHubSearchActivity;
 
 public class RootNavigator extends BaseNavigator {
     public RootNavigator(NavigationOwner owner) {
@@ -13,7 +13,7 @@ public class RootNavigator extends BaseNavigator {
     }
 
     public void showGitHubRepoSearch() {
-        Intent intent = new Intent(owner.getNavigationOwner(), GitHubRepoSearchActivity.class);
+        Intent intent = new Intent(owner.getNavigationOwner(), GitHubSearchActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         owner.getNavigationOwner().startActivity(intent);
     }

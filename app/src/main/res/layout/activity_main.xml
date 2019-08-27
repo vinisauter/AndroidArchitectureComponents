@@ -2,13 +2,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".github.repositories.presentation.GitHubRepoSearchActivity">
+    tools:context=".github.presentation.GitHubSearchActivity">
 
     <data>
 
         <variable
             name="mainVM"
-            type="com.vas.architecture.github.repositories.presentation.GitHubRepoViewModel" />
+            type="com.vas.architecture.github.presentation.GitHubViewModel" />
 
         <variable
             name="isLoading"
