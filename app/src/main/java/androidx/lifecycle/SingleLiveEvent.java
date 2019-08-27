@@ -5,6 +5,7 @@ import android.util.Log;
 import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.arch.core.util.Function;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -18,7 +19,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * <p>
  * Note that only one observer is going to be notified of changes.
  */
-public class SingleLiveEvent<T> extends MutableLiveData<T> {
+public class SingleLiveEvent<T> extends MediatorLiveData<T> {
 
     private static final String TAG = "SingleLiveEvent";
 
@@ -32,8 +33,9 @@ public class SingleLiveEvent<T> extends MutableLiveData<T> {
 
         // Observe the internal MutableLiveData
         super.observe(owner, t -> {
-            if (mPending.compareAndSet(true, false)) {
+            if (mPending.compareAndSet(true, false) && t != null) {
                 observer.onChanged(t);
+                super.setValue(null);
             }
         });
     }
@@ -50,5 +52,41 @@ public class SingleLiveEvent<T> extends MutableLiveData<T> {
     @MainThread
     public void call() {
         setValue(null);
+    }
+
+    @MainThread
+    @NonNull
+    public static <X, Y> SingleLiveEvent<Y> map(
+            @NonNull LiveData<X> source,
+            @NonNull final Function<X, Y> mapFunction) {
+        final SingleLiveEvent<Y> result = new SingleLiveEvent<>();
+        result.addSource(source, x -> result.setValue(mapFunction.apply(x)));
+        return result;
+    }
+
+    public static <X, Y> SingleLiveEvent<Y> switchMap(
+            @NonNull LiveData<X> source,
+            @NonNull final Function<X, LiveData<Y>> switchMapFunction
+    ) {
+        final SingleLiveEvent<Y> result = new SingleLiveEvent<>();
+        result.addSource(source, new Observer<X>() {
+            LiveData<Y> mSource;
+
+            @Override
+            public void onChanged(@Nullable X x) {
+                LiveData<Y> newLiveData = switchMapFunction.apply(x);
+                if (mSource == newLiveData) {
+                    return;
+                }
+                if (mSource != null) {
+                    result.removeSource(mSource);
+                }
+                mSource = newLiveData;
+                if (mSource != null) {
+                    result.addSource(mSource, result::setValue);
+                }
+            }
+        });
+        return result;
     }
 }

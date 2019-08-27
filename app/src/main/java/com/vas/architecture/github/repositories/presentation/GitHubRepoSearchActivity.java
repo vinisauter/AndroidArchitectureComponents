@@ -1,15 +1,21 @@
 package com.vas.architecture.github.repositories.presentation;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.vas.architecture.R;
 import com.vas.architecture.databinding.ActivityMainBinding;
+import com.vas.architecture.github.repositories.objects.Repo;
 import com.vas.architecture.github.repositories.presentation.components.RepoAdapter;
 
 public class GitHubRepoSearchActivity extends AppCompatActivity {
@@ -25,11 +31,41 @@ public class GitHubRepoSearchActivity extends AppCompatActivity {
         mainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         mainBinding.setMainVM(mainVM);
 
-        RepoAdapter adapter = new RepoAdapter(() -> mainVM.onQueryRetryRequest());
+        RepoAdapter adapter = new RepoAdapter(new RepoAdapter.AdapterEvent() {
+            @Override
+            public void onQueryRetryRequest() {
+                mainVM.onQueryRetryRequest();
+            }
+
+            @Override
+            public void onItemClicked(Repo item) {
+                mainVM.onRepoSelected(item);
+            }
+        });
+
+        adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                if(positionStart == 0) {
+                    mainBinding.recyclerView.scrollToPosition(0);
+                }
+            }
+        });
+
         mainVM.posts.observe(this, adapter::submitList);
         mainBinding.recyclerView.setAdapter(adapter);
 
         mainVM.queryState.observe(this, adapter::setQueryState);
+
+        mainVM.navigateToBrowser.observe(this, url -> {
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setData(Uri.parse(url));
+            startActivity(i);
+        });
+
+        mainVM.errorToShow.observe(this, errorText ->
+                Toast.makeText(this, errorText, Toast.LENGTH_LONG).show()
+        );
 
         String savedQuery = null;
         if (savedInstanceState != null) {
@@ -53,6 +89,11 @@ public class GitHubRepoSearchActivity extends AppCompatActivity {
                 return false;
             }
         });
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
     }
 
     @Override

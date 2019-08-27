@@ -1,9 +1,14 @@
 package com.vas.architecture.github.repositories.business;
 
-import com.vas.architecture.github.repositories.objects.Repo;
-import com.vas.architecture.github.repositories.repository.GitHubRepoRepositoryV2;
+import androidx.lifecycle.State;
 
-public class GitHubRepoModel {
+import com.vas.architecture.components.exception.RetryException;
+import com.vas.architecture.github.repositories.objects.Repo;
+import com.vas.architecture.github.repositories.presentation.IGitHubData;
+import com.vas.architecture.github.repositories.presentation.Listing;
+import com.vas.architecture.github.repositories.repository.GitHubRepoRepository;
+
+public class GitHubRepoModel implements IGitHubData {
     // region Singleton Model INSTANCE
     private static GitHubRepoModel instance_;
 
@@ -28,17 +33,39 @@ public class GitHubRepoModel {
     }
     // endregion
 
-    private GitHubRepoRepositoryV2 mainRepository = new GitHubRepoRepositoryV2();
+    private GitHubRepoRepository mainRepository = new GitHubRepoRepository();
+
+    private final Listing<Repo> repoListing = new Listing<>();
+    private boolean hasInternet = true;
 
     private GitHubRepoModel() {
 
     }
 
     public Listing<Repo> searchListRepos(String query, int pageSize) {
-        return mainRepository.searchRepositories(query, pageSize);
+        mainRepository.searchRepositories(query, pageSize, hasInternet,
+                repoListing.queryState,
+                repoListing.pagedList,
+                repoListing.onError);
+        return repoListing;
     }
 
     public void retryErrorQuery() {
-        mainRepository.retryErrorQuery();
+        State value = repoListing.queryState.getValue();
+        if (value != null) {
+            if (value == State.ERROR) {
+                Throwable error = value.getThrowable();
+                if (error instanceof RetryException) {
+                    repoListing.queryState.postValue(State.LOADING);
+                    ((RetryException) error).retry();
+                } else {
+                    error.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public void getRepoUrl(Long id) {
+        mainRepository.getRepoUrl(id, repoListing.onUrlResult, repoListing.onError);
     }
 }

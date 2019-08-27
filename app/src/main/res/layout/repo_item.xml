@@ -7,6 +7,11 @@
         <variable
             name="item"
             type="com.vas.architecture.github.repositories.objects.Repo" />
+
+        <variable
+            name="adapterEvent"
+            type="com.vas.architecture.github.repositories.presentation.components.RepoAdapter.AdapterEvent" />
+
     </data>
 
     <LinearLayout
@@ -14,6 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="2dp"
         android:background="#2D3035"
+        android:onClick="@{() -> adapterEvent.onItemClicked(item)}"
         android:orientation="horizontal"
         android:padding="10dp">
 

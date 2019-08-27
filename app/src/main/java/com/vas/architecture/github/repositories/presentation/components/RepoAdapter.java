@@ -25,6 +25,8 @@ public class RepoAdapter extends PagedListAdapter<Repo, RecyclerView.ViewHolder>
 
     public interface AdapterEvent {
         void onQueryRetryRequest();
+
+        void onItemClicked(Repo item);
     }
 
     public RepoAdapter(AdapterEvent adapterEvent) {
@@ -57,7 +59,7 @@ public class RepoAdapter extends PagedListAdapter<Repo, RecyclerView.ViewHolder>
         if (viewType == REPO_ITEM_TYPE) {
             return RepositoryViewHolder.create(parent);
         } else if (viewType == STATE_ITEM_TYPE) {
-            return StateItemViewHolder.create(parent, adapterEvent);
+            return StateItemViewHolder.create(parent);
         } else {
             throw new IllegalArgumentException("unknown view type $viewType: " + viewType);
         }
@@ -67,9 +69,9 @@ public class RepoAdapter extends PagedListAdapter<Repo, RecyclerView.ViewHolder>
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         int viewType = getItemViewType(position);
         if (viewType == REPO_ITEM_TYPE) {
-            ((RepositoryViewHolder) holder).bind(getItem(position));
+            ((RepositoryViewHolder) holder).bind(getItem(position), adapterEvent);
         } else if (viewType == STATE_ITEM_TYPE) {
-            ((StateItemViewHolder) holder).bind(queryState);
+            ((StateItemViewHolder) holder).bind(queryState, adapterEvent);
         }
     }
 
@@ -116,7 +118,7 @@ public class RepoAdapter extends PagedListAdapter<Repo, RecyclerView.ViewHolder>
         super.onBindViewHolder(holder, position, payloads);
         if (!payloads.isEmpty()) {
             Repo item = getItem(position);
-            ((RepositoryViewHolder) holder).bind(item);
+            ((RepositoryViewHolder) holder).bind(item, adapterEvent);
         } else {
             onBindViewHolder(holder, position);
         }
@@ -137,29 +139,27 @@ public class RepoAdapter extends PagedListAdapter<Repo, RecyclerView.ViewHolder>
             this.repoItemBinding = binding;
         }
 
-        void bind(Repo item) {
+        void bind(Repo item, AdapterEvent adapterEvent) {
             repoItemBinding.setItem(item);
+            repoItemBinding.setAdapterEvent(adapterEvent);
         }
     }
 
     static class StateItemViewHolder extends RecyclerView.ViewHolder {
-
         private final StateItemBinding stateItemBinding;
-        private AdapterEvent adapterEvent;
 
-        static RecyclerView.ViewHolder create(ViewGroup parent, AdapterEvent adapterEvent) {
+        static RecyclerView.ViewHolder create(ViewGroup parent) {
             StateItemBinding stateItemBinding =
                     StateItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-            return new StateItemViewHolder(stateItemBinding, adapterEvent);
+            return new StateItemViewHolder(stateItemBinding);
         }
 
-        private StateItemViewHolder(@NonNull StateItemBinding binding, AdapterEvent adapterEvent) {
+        private StateItemViewHolder(@NonNull StateItemBinding binding) {
             super(binding.getRoot());
             this.stateItemBinding = binding;
-            this.adapterEvent = adapterEvent;
         }
 
-        void bind(State task) {
+        void bind(State task, AdapterEvent adapterEvent) {
             stateItemBinding.setAdapterEvent(adapterEvent);
             stateItemBinding.setState(task);
         }

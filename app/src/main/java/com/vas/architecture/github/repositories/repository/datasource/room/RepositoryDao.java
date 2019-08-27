@@ -35,4 +35,7 @@ public interface RepositoryDao {
 
     @Delete
     void delete(RepositoryDB... item);
+
+    @Query("SELECT * FROM RepositoryDB WHERE id = :id ")
+    RepositoryDB getRepositoryById(Long id);
 }

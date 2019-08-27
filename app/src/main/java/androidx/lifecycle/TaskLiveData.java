@@ -7,7 +7,7 @@ import rx.Observable;
 import rx.Subscription;
 import rx.schedulers.Schedulers;
 
-public class TaskLiveData<T> extends SingleLiveEvent<TaskResult<T>> {
+public class TaskLiveData<T> extends LiveData<TaskResult<T>> {
 
     public static <T> TaskLiveData<T> createFor(io.reactivex.Observable<T> observable) {
         return new TaskLiveData<T>() {
